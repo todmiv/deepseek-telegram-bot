@@ -2,7 +2,7 @@ import os
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from openai import OpenAI
+from openai import APIError, OpenAI
 
 # Настройка логирования
 logging.basicConfig(
@@ -56,9 +56,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ai_response = response.choices[0].message.content
         await update.message.reply_text(ai_response)
         
+    except APIError as e:
+        if e.status_code == 402:
+            logger.error("Ошибка баланса: Недостаточно средств на аккаунте DeepSeek")
+            await update.message.reply_text(
+                "⚠️ Недостаточно средств на API-аккаунте!\n\n"
+                "Пожалуйста:\n"
+                "1. Проверьте баланс на https://platform.deepseek.com/overview\n"
+                "2. Пополните счет или перейдите на бесплатную модель"
+            )
+        else:
+            logger.error(f"Ошибка API DeepSeek: {str(e)}")
+            await update.message.reply_text("⚠️ Ошибка API DeepSeek. Попробуйте позже.")
+            
     except Exception as e:
-        logger.error(f"Ошибка при обработке сообщения: {str(e)}")
-        await update.message.reply_text("⚠️ Произошла ошибка при обработке запроса. Пожалуйста, попробуйте позже.")
+        logger.error(f"Общая ошибка: {str(e)}")
+        await update.message.reply_text("⚠️ Произошла внутренняя ошибка. Пожалуйста, попробуйте позже.")
 
 def main():
     """Запуск бота"""
