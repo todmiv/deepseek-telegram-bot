@@ -17,7 +17,7 @@ jobs:
         uses: render-actions/deploy@v1
         with:
           apiKey: ${{ secrets.RENDER_API_KEY }}
-          serviceId: your-render-service-id
+          serviceId: srv-d0vflq7fte5s739klnr0
           envVars: |
             TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
             DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
