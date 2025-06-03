@@ -1,0 +1,21 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to Render
+        uses: render-actions/deploy@v1
+        with:
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          serviceId: your-render-service-id  # Замените на ваш ID сервиса
+          envVars: |
+            TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+            DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
