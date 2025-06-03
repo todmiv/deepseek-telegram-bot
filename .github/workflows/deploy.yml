@@ -15,7 +15,7 @@ jobs:
         uses: render-actions/deploy@v1
         with:
           apiKey: ${{ secrets.RENDER_API_KEY }}
-          serviceId: your-render-service-id  # Замените на ваш ID сервиса
+          serviceId: srv-d0vflq7fte5s739klnr0/deploys/dep-d0vflqnfte5s739klogg?t  # Замените на ваш ID сервиса
           envVars: |
             TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
             DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
